@@ -20,9 +20,9 @@
   .fact { border-left:3px solid var(--accent); padding-left:12px; margin:12px 0; }
   .noodle { height:18px; background:linear-gradient(90deg,var(--accent),#ff4d6d); border-radius:9px; transition:width .3s, height .3s; margin:12px auto; }
 </style>
-<link rel="stylesheet" href="style.css"></head>
+<link rel="stylesheet" href="style.css"><link rel="icon" href="favicon.svg" type="image/svg+xml"></head>
 <body>
-<header><b>Black Hole Atlas</b><nav><a href="index.html">Home</a><a href="learn.html">Black holes</a><a href="simulator.html">Simulator</a><a href="fell-in.html">Fell in?</a><a href="beyond.html">Beyond black holes</a><a href="weird.html">Weird Space Stuff</a><a href="glossary.html">Glossary</a><a href="about.html">About</a></nav></header>
+<header><b>Black Hole Atlas</b><nav><a href="index.html">Home</a><a href="learn.html">Black holes</a><a href="simulator.html">Simulator</a><a href="fell-in.html">Fell in?</a><a href="beyond.html">Beyond black holes</a><a href="weird.html">Weird Space Stuff</a><a href="pulsar.html">Pulsar</a><a href="glossary.html">Glossary</a><a href="about.html">About</a></nav></header>
 <main>
   <h1>What if you fell in? 🕳️</h1>
   <p class="muted">Pick a black hole, pick your height, and find out where you turn into spaghetti. The physics is real. The humour is mine.</p>
@@ -53,6 +53,17 @@
     <div id="verdict"></div>
     <p id="details"></p>
     <p class="muted">Formulas: tidal stretch across your body is about 2GML / r³. Event horizon radius is 2GM / c². The distance where the stretch hits your limit is r = (2GML / a)^(1/3). Treated as Newtonian, which is fine for the idea but only approximate very close to the hole.</p>
+  </div>
+
+  <h2>Time dilation: your friend's slow clock ⏳</h2>
+  <div class="card">
+    <p class="muted">Your friend hovers at a fixed distance from the black hole while you watch from far away. Slide them closer and see how slowly their clock ticks. (Hovering that close would need an absurd rocket, so this is a thought experiment.)</p>
+    <label for="dil">Height above the horizon: <span class="val" id="dilOut"></span></label>
+    <input id="dil" type="range" min="-6" max="2" step="0.01" value="0">
+    <div class="noodle" id="clockBar" style="background:linear-gradient(90deg,#5dd6ff,#7a5cff)"></div>
+    <div id="dilVerdict" style="font-weight:700;font-size:1.15rem"></div>
+    <p id="dilDetails"></p>
+    <p class="muted">Formula for a hovering clock: dτ/dt = √(1 − r<sub>s</sub>/r), with r<sub>s</sub> = 2GM/c². Standard Schwarzschild (non-spinning) result. It gets to zero only at the horizon itself. Their own clock feels totally normal to them.</p>
   </div>
 
   <h2>The twist</h2>
@@ -93,6 +104,7 @@ function update(){
     "Event horizon radius: <b>"+dist(rs)+"</b><br>"+
     "Stretch across you at the horizon: <b>"+fmt(tidalAtHorizon/g0)+" g</b><br>"+
     "Distance where you hit your limit: <b>"+dist(rDeath)+"</b> from the centre"+(rDeath<rs?" (inside the horizon)":" (outside the horizon)");
+  if(typeof updateDil==="function") updateDil();
 }
 $('preset').addEventListener('change',e=>{
   if(e.target.value!=="custom") $('mass').value=Math.log10(+e.target.value);
@@ -102,6 +114,27 @@ $('mass').addEventListener('input',()=>{$('preset').value='custom';update();});
 $('height').addEventListener('input',update);
 $('limit').addEventListener('input',update);
 $('mass').value=Math.log10(10); update();
+
+function timeDur(sec){
+  if(sec>=3.156e7*1e3) return fmt(sec/3.156e7)+" years";
+  if(sec>=3.156e7) return fmt(sec/3.156e7)+" years";
+  if(sec>=86400) return fmt(sec/86400)+" days";
+  if(sec>=3600) return fmt(sec/3600)+" hours";
+  if(sec>=60) return fmt(sec/60)+" minutes";
+  return fmt(sec)+" seconds";
+}
+function updateDil(){
+  const M=currentMass()*MSUN, rs=2*G*M/c**2;
+  const h=Math.pow(10,+$('dil').value);        // height above horizon, in units of rs
+  const ratio=Math.sqrt(1-1/(1+h));            // dtau/dt = sqrt(1 - rs/r), r = rs(1+h)
+  $('dilOut').textContent=fmt(h)+" × horizon radius ("+dist(rs*h)+")";
+  $('clockBar').style.width=Math.max(3,ratio*100)+"%";
+  $('dilVerdict').textContent="As seen from far away, their clock ticks "+fmt(ratio,3)+" s for every 1 s of yours.";
+  const per=1/ratio;
+  $('dilDetails').innerHTML="One hour on their clock = <b>"+timeDur(3600*per)+"</b> for you.<br>One of your days = <b>"+timeDur(86400*ratio)+"</b> for them.";
+}
+$('dil').addEventListener('input',updateDil);
+updateDil();
 </script>
 </body>
 </html>
