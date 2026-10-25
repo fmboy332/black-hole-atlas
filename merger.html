@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Black hole + neutron star merger | Black Hole Atlas</title><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<style>#mg-c{width:100%;height:min(60vh,480px);display:block;border-radius:12px;background:#05050d}.mg-bar{display:flex;flex-wrap:wrap;gap:.5rem;margin:.6rem 0}
+.mg-bar button{min-height:44px;padding:.5rem 1rem;border-radius:8px;border:1px solid #445;background:#222244;color:#fff;font:inherit;cursor:pointer;max-width:100%}
+.mg-sl{display:grid;gap:.3rem}.mg-sl label{display:block}.mg-sl input{width:100%;accent-color:#6c5ce7}#mg-note{color:#ffcf8a}#mg-verdict{background:#141428;border-radius:10px;padding:.7rem 1rem}
+.mg-read{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.4rem;margin:0}.mg-read div{background:#10101f;border-radius:8px;padding:.4rem .7rem}.mg-read dt{color:#9aa;font-size:.85em}.mg-read dd{margin:0;font-weight:700}
+.mg-sound{background:#141428;border-radius:12px;padding:.8rem 1rem;margin:1rem 0}.mg-label{border:1px solid #ffcf8a;color:#ffcf8a;border-radius:8px;padding:.5rem .8rem}main{overflow-wrap:anywhere}</style></head>
+<body><header><b>Black Hole Atlas</b><nav><a href="index.html">Home</a><a href="learn.html">Black holes</a><a href="simulator.html">Simulator</a><a href="fell-in.html">Fell in?</a><a href="beyond.html">Beyond black holes</a><a href="weird.html">Weird Space Stuff</a><a href="pulsar.html">Pulsar</a><a href="merger.html">Merger</a><a href="glossary.html">Glossary</a><a href="about.html">About</a></nav></header>
+<main><h1>Black hole meets pulsar</h1><p class="sub">A pulsar is a spinning <b>neutron star</b>, so this is a <b>black hole + neutron star merger</b>.</p>
+<p class="mg-label">Simplified model of a kind of event that has been detected. This is an illustration, not real footage and not a numerical-relativity simulation.</p>
+<section><h2>What is real and what is theorised</h2><ul>
+<li><b>Confirmed:</b> LIGO and Virgo detected the gravitational waves of two black hole + neutron star mergers in January 2020, <b>GW200105</b> and <b>GW200115</b> (announced 2021). The black holes were roughly 9 and 6 suns, the neutron stars roughly 1.9 and 1.5 suns. No light was seen from either.</li>
+<li><b>Not seen yet:</b> no merger involving a visible radio pulsar has been observed. No pulsar orbiting a black hole has been found either, though astronomers are searching. Such a pair is theorised to be a superb laboratory for testing gravity. The pulsar beams here are illustrative.</li>
+<li><b>Theorised:</b> if the black hole is light or spins fast, the star may be torn apart, forming a disc, flinging out matter and maybe making a short gamma-ray burst and a kilonova glow. This has not been observed for a black hole + neutron star pair.</li></ul></section>
+<div id="mg"></div>
+<div class="mg-sound" role="group" aria-label="Sound"><div id="sound"></div><p class="bhsim-small">Sound is off until you press the button. The gravitational-wave chirp is sped up and shifted into hearing range where needed. Playing it restarts the animation so the inspiral lines up with the sound.</p></div>
+<section><h2>How the numbers are worked out</h2><p>Chirp mass M<sub>c</sub> = (m₁m₂)^⅗/(m₁+m₂)^⅕. ISCO from the Bardeen formula (prograde orbit). Tidal disruption radius ≈ R<sub>NS</sub>(3M<sub>BH</sub>/M<sub>NS</sub>)^⅓ with R<sub>NS</sub> = 12 km, a rough Newtonian rule. If it is smaller than the ISCO, the star is swallowed whole. Gravitational-wave frequency = 2 × the Kepler orbital frequency. Time to merger from the Peters formula for circular orbits. The final mass is a rough estimate, and the final spin is left out because no simple honest formula fits here. The on-screen orbit is slowed down enormously: the real last orbits take milliseconds.</p></section>
+</main>
+<script src="merger.js"></script><script src="merger-sound.js"></script>
+<script>const api=MergerSim.mount(document.getElementById("mg"));
+MergerSound.mount(document.getElementById("sound"),()=>({m1:api.v.m1,m2:api.v.m2,disrupted:api.d.dis}),s=>{api.v.spd=1;document.getElementById("mg-spd").value=1;api.restart(true,s)});</script>
+</body></html>
