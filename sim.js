@@ -28,7 +28,49 @@ const OBJECTS={
   ],
   draw:drawBlackHole
  }
- /* pulsar:{ name:"Pulsar", sliders:[...], compute(v){...}, readouts:[...], draw:drawPulsar } */
+ ,pulsar:{
+  name:"Pulsar",noSpag:true,
+  sliders:[
+   {id:"period",label:"Spin period P",min:-2.854,max:1,default:-1.4815,step:0.001,log:true,unit:"s",fmt:x=>x<1?fmt(x*1000,1)+" ms":fmt(x,2)+" s",tooltip:"Time for one full turn (log scale, 1.4 ms to 10 s). Fastest known pulsar: about 1.4 ms (716 turns per second). Crab: about 33 ms."},
+   {id:"bfield",label:"Magnetic field B",min:8,max:15,default:12.6,step:0.01,log:true,unit:"gauss",fmt:x=>fmt(x,0)+" G",tooltip:"Surface field. Normal pulsars ~1e12 G, millisecond pulsars ~1e8–1e9 G, magnetars 1e14–1e15 G. (1 tesla = 10,000 gauss.)"},
+   {id:"tilt",label:"Beam tilt α",min:0,max:90,default:45,step:1,unit:"°",tooltip:"Angle between the magnetic axis (where the beams come out) and the spin axis."},
+   {id:"width",label:"Beam half-width ρ",min:2,max:30,default:10,step:1,unit:"°",tooltip:"How wide each beam cone is (half-angle). Real beams are roughly a few to tens of degrees."},
+   {id:"view",label:"Viewing angle ζ",min:0,max:180,default:50,step:1,unit:"°",tooltip:"Angle between the spin axis and the direction to Earth. You only see pulses if a beam sweeps across Earth: |ζ − α| < ρ."},
+   {id:"mass",label:"Mass",min:1.1,max:2.2,default:1.4,step:0.01,unit:"suns",tooltip:"Neutron star mass. Most are near 1.4 suns; the heaviest well-measured ones are around 2 suns."},
+   {id:"radius",label:"Radius",min:10,max:12,default:12,step:0.1,unit:"km",tooltip:"Neutron star radius, roughly 10–12 km (the exact value is still being measured)."}
+  ],
+  presets:[
+   {name:"Crab Pulsar",v:{period:0.0335,bfield:3.8e12,tilt:45,width:12,view:49},note:"Crab: P ≈ 33.5 ms (~29.9 turns/s), B ≈ 4×10¹² G, slowing by about 4.2×10⁻¹³ s every second, about 6,500 light-years away. Clicks blur into a buzzing growl."},
+   {name:"Vela",v:{period:0.0893,bfield:3.4e12,tilt:45,width:12,view:49},note:"Vela: P ≈ 89 ms (~11 turns/s). A fast rattle."},
+   {name:"Slow pulsar (~1 s)",v:{period:1.0,bfield:1e12,tilt:30,width:10,view:38},note:"P ≈ 1 s. Ticks are clearly separate, like a clock."},
+   {name:"Millisecond pulsar (716 Hz)",v:{period:0.0013963,bfield:3e8,tilt:60,width:20,view:70},note:"PSR J1748−2446ad, about 716 turns per second: the ticks merge into a musical note (roughly F5)."}
+  ],
+  compute(v){
+   const P=v.period,R=v.radius*1e3,M=v.mass*MSUN,I=1e45; // I in g cm^2
+   const f=1/P,vs=2*Math.PI*R/P,rlc=C*P/(2*Math.PI);
+   const Pdot=Math.pow(v.bfield/3.2e19,2)/P; // from B ≈ 3.2e19 √(P Pdot) G
+   const Edot=4*Math.PI*Math.PI*I*Pdot/Math.pow(P,3); // erg/s
+   const age=P/(2*Pdot)/3.156e7;
+   const vesc=Math.sqrt(2*G*M/R),gs=G*M/(R*R);
+   const D=Math.PI/180,a=v.tilt*D,z=v.view*D,w=v.width*D;
+   const prof=ph=>{const ct=Math.cos(a)*Math.cos(z)+Math.sin(a)*Math.sin(z)*Math.cos(ph);const th=Math.acos(Math.max(-1,Math.min(1,ct)));
+     return Math.exp(-Math.pow(th/w,2)*2.3)+Math.exp(-Math.pow((Math.PI-th)/w,2)*2.3)}; // two poles; ~10% at beam edge
+   const main=prof(0),inter=prof(Math.PI);
+   return {P,f,vs,rlc,Pdot,Edot,age,vesc,gs,prof,main,inter,seen:Math.max(main,inter)>0.1};
+  },
+  readouts:[
+   {label:"Spin frequency",val:d=>fmt(d.f,d.f<10?2:1)+" turns per second (Hz)",formula:"f = 1/P"},
+   {label:"Equator surface speed",val:d=>fmt(d.vs/1e3,0)+" km/s ("+fmt(d.vs/C*100,d.vs/C<0.01?3:1)+"% of c)",formula:"v = 2πR / P"},
+   {label:"Light cylinder radius",val:d=>fmtLen(d.rlc),formula:"R_LC = cP / 2π (where co-rotating field would have to move at light speed)"},
+   {label:"Do we see pulses?",val:d=>d.seen?(d.inter>0.1&&d.main>0.1?"Yes, both beams (main pulse + interpulse)":"Yes, one beam per turn"):"No. Beams miss Earth (|ζ − α| > ρ)",formula:"visible if |ζ − α| < ρ (or the opposite pole: |180° − ζ − α| < ρ)"},
+   {label:"Spin-down rate Ṗ (implied)",val:d=>fmt(d.Pdot,2)+" s/s",formula:"from B ≈ 3.2×10¹⁹ √(P Ṗ) G → Ṗ = (B / 3.2×10¹⁹)² / P",note:"Estimate from the dipole model"},
+   {label:"Spin-down power",val:d=>fmt(d.Edot,2)+" erg/s ("+fmt(d.Edot*1e-7,2)+" W)",formula:"Ė = 4π² I Ṗ / P³, I ≈ 10⁴⁵ g cm²",note:"Approximate"},
+   {label:"Characteristic age",val:d=>fmt(d.age,2)+" years",formula:"τ = P / (2Ṗ)",note:"Rough only; overestimates real ages (the Crab is really ~970 years old, supernova seen in 1054)"},
+   {label:"Escape velocity",val:d=>fmt(d.vesc/1e3,0)+" km/s ("+fmt(d.vesc/C*100,0)+"% of c)",formula:"v_esc = √(2GM/R) (Newtonian; GR changes this somewhat)"},
+   {label:"Surface gravity",val:d=>fmt(d.gs,2)+" m/s² (~"+fmt(d.gs/9.81,2)+" × Earth)",formula:"g = GM/R² (Newtonian)"}
+  ],
+  draw:drawPulsar
+ }
 };
 
 function makeStars(n,w,h){const s=[];for(let i=0;i<n;i++)s.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.3+0.2,t:Math.random()*6.28,s:0.5+Math.random()*2});return s}
@@ -95,6 +137,46 @@ function discHalf(ctx,cx,cy,inner,outer,tilt,phase,spin,back){
  ctx.restore();
 }
 
+function drawPulsar(ctx,st,v,d,dt){
+ const {w,h}=st;const stripH=Math.min(70,h*0.16);const cx=w/2,cy=(h-stripH)/2;const D=Math.PI/180;
+ // visual rotation: real rate if slow, capped at ~1.5 turns/s for display (true rate is used for sound)
+ const visRate=Math.min(1/d.P,1.5);st.phase=((st.phase||0)+dt*visRate*2*Math.PI*(st.spinMul||1))%(2*Math.PI);
+ const ph=st.phase,a=v.tilt*D,z=v.view*D,wd=v.width*D;
+ const Rpx=Math.min(w,h)*0.07,L=Math.min(w,h-stripH)*0.46;
+ // spin axis
+ ctx.strokeStyle="rgba(159,180,255,.35)";ctx.setLineDash([4,6]);ctx.beginPath();ctx.moveTo(cx,cy-L);ctx.lineTo(cx,cy+L);ctx.stroke();ctx.setLineDash([]);
+ // Earth direction marker (in screen plane, angle ζ from the spin axis)
+ const ex=cx+Math.sin(z)*L*0.98,ey=cy-Math.cos(z)*L*0.98;
+ // magnetic axis in 3D: x right, y up, zz toward viewer
+ const mx=Math.sin(a)*Math.cos(ph),my=Math.cos(a),mz=Math.sin(a)*Math.sin(ph);
+ const I=d.prof(ph);
+ ctx.save();ctx.globalCompositeOperation="lighter";
+ for(const sg of[1,-1]){
+  const bx=mx*sg,by=my*sg,bz=mz*sg;const ang=Math.atan2(-by,bx);const len=L*Math.hypot(bx,by)+1;
+  const depth=0.55+0.45*bz;
+  const gr=ctx.createRadialGradient(cx,cy,Rpx*0.5,cx,cy,len);gr.addColorStop(0,`rgba(170,210,255,${0.55*depth})`);gr.addColorStop(1,"rgba(120,160,255,0)");
+  ctx.fillStyle=gr;ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,len,ang-wd,ang+wd);ctx.closePath();ctx.fill();
+ }
+ // magnetic field loops (visual)
+ ctx.strokeStyle="rgba(140,120,255,.25)";ctx.lineWidth=1;
+ for(const k of[1.8,2.6,3.6]){for(const sg of[1,-1]){ctx.beginPath();for(let t=0;t<=40;t++){const th=t/40*Math.PI;const r=Rpx*k*Math.pow(Math.sin(th),2)+Rpx*0.9;
+   const px=r*Math.sin(th)*sg,py=r*Math.cos(th);const ax=Math.atan2(mx,my);const xx=px*Math.cos(ax)+py*Math.sin(ax),yy=-px*Math.sin(ax)+py*Math.cos(ax);
+   t?ctx.lineTo(cx+xx,cy-yy):ctx.moveTo(cx+xx,cy-yy)}ctx.stroke()}}
+ // star
+ const sg2=ctx.createRadialGradient(cx,cy,0,cx,cy,Rpx*2.2);sg2.addColorStop(0,"rgba(230,240,255,1)");sg2.addColorStop(0.45,"rgba(150,190,255,.6)");sg2.addColorStop(1,"rgba(80,120,255,0)");
+ ctx.fillStyle=sg2;ctx.beginPath();ctx.arc(cx,cy,Rpx*2.2,0,6.283);ctx.fill();
+ ctx.restore();
+ // Earth + flash
+ if(I>0.1){ctx.fillStyle=`rgba(255,255,220,${Math.min(1,I)*0.5})`;ctx.beginPath();ctx.arc(ex,ey,10+20*I,0,6.283);ctx.fill();}
+ ctx.fillStyle="#4fa3ff";ctx.beginPath();ctx.arc(ex,ey,6,0,6.283);ctx.fill();ctx.fillStyle="#cfe";ctx.font="12px system-ui";ctx.fillText("Earth",ex+9,ey+4);
+ // pulse profile strip: 2 turns
+ const y0=h-stripH;ctx.fillStyle="rgba(20,20,40,.85)";ctx.fillRect(0,y0,w,stripH);
+ ctx.strokeStyle="#ffcf8a";ctx.lineWidth=1.5;ctx.beginPath();const pad=8,ww=w-2*pad;
+ for(let i=0;i<=400;i++){const p=i/400*4*Math.PI;const yy=y0+stripH-8-Math.min(1,d.prof(p))*(stripH-24);i?ctx.lineTo(pad+i/400*ww,yy):ctx.moveTo(pad,yy)}ctx.stroke();
+ const cxp=pad+(ph/(4*Math.PI))*ww;ctx.strokeStyle="rgba(255,255,255,.6)";ctx.beginPath();ctx.moveTo(cxp,y0+4);ctx.lineTo(cxp,h-4);ctx.stroke();
+ ctx.fillStyle="#aab";ctx.fillText("Pulse profile (brightness seen from Earth over 2 turns)",pad,y0+14);
+}
+
 function mount(root,opts){
  opts=opts||{};const obj=OBJECTS[opts.object||"blackhole"];const full=opts.mode!=="hero";
  root.innerHTML="";root.classList.add("bhsim");
@@ -114,11 +196,13 @@ function mount(root,opts){
   });
   panel.appendChild(adv);
   readEl=document.createElement("div");readEl.className="bhsim-read";panel.appendChild(readEl);
+  if(!obj.noSpag){
   // spaghettification check
   const sp=document.createElement("div");sp.className="bhsim-spag";
   sp.innerHTML='<h3>Spaghettification check</h3><label>Your height (m) <input type="number" id="sim-height" value="1.8" min="0.1" step="0.1"></label><p class="bhsim-spag-out"></p><p class="bhsim-small">Uses the Distance slider. Tidal stretch ≈ 2GML / r³ (Newtonian estimate).</p>';
   panel.appendChild(sp);
   sp.querySelector("input").addEventListener("input",update);
+  }
   root.appendChild(panel);
   adv.querySelector("input").addEventListener("change",e=>{root.classList.toggle("bhsim-advanced",e.target.checked)});
  }
@@ -127,8 +211,10 @@ function mount(root,opts){
  window.addEventListener("resize",resize);resize();
  function update(){
   if(!full)return;const d=obj.compute(vals);
-  obj.sliders.forEach(s=>{const b=panel.querySelector(`[data-v="${s.id}"]`);b.textContent=(s.log?fmt(vals[s.id],0):fmt(vals[s.id],2))+" "+s.unit});
+  obj.sliders.forEach(s=>{const b=panel.querySelector(`[data-v="${s.id}"]`);b.textContent=s.fmt?s.fmt(vals[s.id]):(s.log?fmt(vals[s.id],0):fmt(vals[s.id],2))+" "+s.unit});
   readEl.innerHTML=obj.readouts.map(r=>`<div class="bhsim-ro"><span>${r.label}</span><b>${r.val(d)}</b>${r.note?`<em>${r.note}</em>`:""}<code class="bhsim-f">${r.formula}</code></div>`).join("");
+  if(opts.onUpdate)opts.onUpdate(d,vals);
+  if(obj.noSpag)return;
   const L=parseFloat(root.querySelector("#sim-height").value)||1.8;const a=d.tidal(L);
   let msg;if(a<10)msg=`✅ Fine. Stretch ≈ ${fmt(a,2)} m/s² across your body (Earth gravity is 9.8).`;
   else if(a<1000)msg=`⚠️ Painful. Stretch ≈ ${fmt(a,0)} m/s² — about ${fmt(a/9.81,0)}× Earth gravity pulling your head and feet apart.`;
@@ -151,7 +237,8 @@ function mount(root,opts){
   requestAnimationFrame(frame);
  }
  requestAnimationFrame(frame);
- return {vals,update};
+ function set(nv){Object.assign(vals,nv);if(full)obj.sliders.forEach(s=>{if(s.id in nv){root.querySelector("#sim-"+s.id).value=s.log?Math.log10(nv[s.id]):nv[s.id]}});update()}
+ return {vals,update,set,st,obj};
 }
 // inject styles once
 const css=`.bhsim{display:grid;gap:1rem;margin:1.5rem 0}.bhsim-canvas{width:100%;height:min(60vh,460px);border-radius:12px;display:block;background:#03030a;box-shadow:0 0 40px rgba(108,92,231,.25)}

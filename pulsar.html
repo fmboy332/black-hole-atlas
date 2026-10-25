@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pulsar simulator | Black Hole Atlas</title><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<style>.pz-bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.6rem 0}.pz-bar button{min-height:44px;padding:.5rem 1rem;border-radius:8px;border:1px solid #445;background:#222244;color:#fff;font:inherit;cursor:pointer}
+.pz-bar button[aria-pressed=true]{background:#6c5ce7}.pz-sound{background:#141428;border-radius:12px;padding:.8rem 1rem;margin:1rem 0}.pz-sound #snd{font-size:1.1em;font-weight:700}
+.pz-sound label{display:flex;gap:.5rem;align-items:center;min-height:44px}.pz-sound input[type=range]{flex:1;max-width:260px;accent-color:#6c5ce7}#pz-note{color:#ffcf8a}.ps-btn{min-height:44px;font:inherit}.pz-sound input[type=checkbox]{width:22px;height:22px}</style></head>
+<body><header><b>Black Hole Atlas</b><nav><a href="index.html">Home</a><a href="learn.html">Black holes</a><a href="simulator.html">Simulator</a><a href="fell-in.html">Fell in?</a><a href="beyond.html">Beyond black holes</a><a href="weird.html">Weird Space Stuff</a><a href="pulsar.html">Pulsar</a><a href="glossary.html">Glossary</a><a href="about.html">About</a></nav></header>
+<main><h1>Pulsar simulator</h1><p class="sub">A pulsar is a dead star's core, a neutron star about 20–24 km across, spinning like a cosmic lighthouse.</p>
+<p>Two beams of radiation shoot out from its magnetic poles. Because the magnetic axis is tilted from the spin axis, the beams sweep around the sky. Every time one crosses Earth, we see a pulse. Pick a famous pulsar, then turn the sound on.</p>
+<div class="pz-bar" id="presets" role="group" aria-label="Presets"></div>
+<p id="pz-note" aria-live="polite"></p>
+<div class="pz-sound" role="group" aria-label="Sound controls">
+ <div id="sound"></div>
+ <div class="pz-bar"><button id="up">⏩ Spin up</button><button id="down">⏪ Spin down</button></div>
+ <p class="bhsim-small" id="snd-status"></p>
+</div>
+<div id="sim-slot" class="bhsim-full"></div>
+<section><h2>Is this what a pulsar really sounds like?</h2>
+<p>Not exactly. Space is silent. Pulsars are mostly seen as <b>radio</b> signals, and astronomers turn those radio pulses into sound (this is called <b>sonification</b>). Here, you hear one click each time a beam sweeps past Earth, timed to the spin period you choose (two per turn if both beams hit us). The Crab spins about 30 times a second, so its clicks blur into a growl. The fastest known pulsar, about 716 turns per second, sounds like a musical note.</p>
+<p><b>What is visual only:</b> the beams' colours, the field-line loops and the glow are illustrations. For fast pulsars the on-screen rotation is slowed to at most 1.5 turns per second so you can see it (the sound and the numbers use the true period). The pulse profile strip, the "do we see pulses?" check and the readouts come from real geometry and standard formulas, with simplifications: a simple dipole spin-down model, a fixed moment of inertia (about 10⁴⁵ g cm²) and Newtonian gravity. The spin-up/spin-down buttons are a sound effect. Real pulsars slow down far too gradually to hear.</p>
+<p>Fun facts: Jocelyn Bell Burnell found the first pulsar in 1967 (working with Antony Hewish). The Crab pulsar is what is left of a star that exploded in a supernova seen from Earth in 1054. The lighthouse model is well established. Exactly how the radio emission is made is still debated.</p></section>
+<script src="sim.js"></script>
+<script src="pulsar-sound.js"></script>
+<script>
+(function(){
+let rate=1,spinHz=29.9;
+const status=()=>document.getElementById("snd-status");
+const api=BHSim.mount(document.getElementById("sim-slot"),{mode:"full",object:"pulsar",onUpdate:d=>{
+ spinHz=d.f;const ib=document.querySelector("#sound .ps-inter");const both=d.main>0.1&&d.inter>0.1;
+ if(ib&&ib.checked!==both){ib.checked=both;ib.dispatchEvent(new Event("change"))}
+ if(status())status().textContent=d.seen?("Beat: "+d.f.toFixed(d.f<10?2:0)+" ticks per second"+(both?" plus an interpulse from the second beam":"")+"."):"Note: with these angles the beams miss Earth, so a real telescope would see no pulses. The sound keeps ticking so you can still hear the spin.";
+}});
+const obj=api.obj,note=document.getElementById("pz-note");
+PulsarSound.mount(document.getElementById("sound"),()=>spinHz*rate);
+obj.presets.forEach(p=>{const b=document.createElement("button");b.textContent=p.name;b.onclick=()=>{api.set(p.v);note.textContent=p.note};document.getElementById("presets").appendChild(b)});
+function spin(to){const t0=performance.now(),from=rate;
+ (function tick(){const s=(performance.now()-t0)/1000;rate=s<2.5?from+(to-from)*s/2.5:s<5?to+(1-to)*(s-2.5)/2.5:1;api.st.spinMul=rate;if(s<5)requestAnimationFrame(tick)})();
+ note.textContent=to>1?"Spinning up: ticks speed up (and fast ones rise in pitch), then return. This is a sound effect; real pulsars change far too slowly to hear.":"Spinning down: slower ticks, then back. A sound effect only.";}
+document.getElementById("up").onclick=()=>spin(2.5);document.getElementById("down").onclick=()=>spin(0.4);
+api.set(obj.presets[0].v);note.textContent=obj.presets[0].note;
+})();
+</script>
+</main><footer>Black Hole Atlas</footer></body></html>
