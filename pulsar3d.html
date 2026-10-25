@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3D pulsar | Black Hole Atlas</title><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<style>.pz-bar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.6rem 0}.pz-bar button,.pz-btn{min-height:44px;padding:.5rem 1rem;border-radius:8px;border:1px solid #445;background:#222244;color:#fff;font:inherit;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.pz-bar button[aria-pressed=true]{background:#6c5ce7}.pz-sound{background:#141428;border-radius:12px;padding:.8rem 1rem;margin:1rem 0}.pz-sound #snd{font-size:1.1em;font-weight:700}
+.pz-sound label{display:flex;gap:.5rem;align-items:center;min-height:44px}.pz-sound input[type=range]{flex:1;max-width:260px;accent-color:#6c5ce7}#pz-note{color:#ffcf8a}.ps-btn{min-height:44px;font:inherit}.pz-sound input[type=checkbox]{width:22px;height:22px}
+#p3-wrap{position:relative;width:100%;max-width:100%;height:min(68vh,560px);min-height:320px;border-radius:12px;overflow:hidden;background:#02020a;touch-action:none}
+#p3-wrap canvas{display:block;width:100%!important;height:100%!important}
+#p3-tag{position:absolute;left:8px;top:8px;font-size:.8rem;color:#aab;background:rgba(0,0,0,.45);padding:2px 8px;border-radius:6px;pointer-events:none}
+#p3-strip{display:block;width:100%;height:70px;border-radius:0 0 12px 12px;background:#141428}
+#p3-msg{color:#ffcf8a}
+#sim-slot .bhsim-canvas,#sim-slot .bhsim-adv{display:none!important}
+#eq{background:#10102a;border-radius:12px;padding:.6rem 1rem;margin:1rem 0}#eq[hidden]{display:none}
+.eq-row{border-top:1px solid #2a2a4a;padding:.6rem 0}.eq-row:first-of-type{border-top:0}
+.eq-f{font-family:Georgia,"Times New Roman",serif;font-size:1.15rem;color:#fff;overflow-wrap:anywhere}.eq-p{color:#bbc}.eq-v{color:#ff9d3c;font-weight:700;overflow-wrap:anywhere}
+.tag{display:inline-block;font-size:.72rem;padding:1px 7px;border-radius:9px;margin-left:.4rem;vertical-align:middle}.t-in{background:#1f4d2e}.t-est{background:#6b4a10}.t-mod{background:#33336b}.t-th{background:#5a1f3a}
+main{overflow-x:hidden}</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/" } }</script>
+</head>
+<body><header><b>Black Hole Atlas</b><nav><a href="index.html">Home</a><a href="learn.html">Black holes</a><a href="simulator.html">Simulator</a><a href="fell-in.html">Fell in?</a><a href="beyond.html">Beyond black holes</a><a href="weird.html">Weird Space Stuff</a><a href="pulsar.html">Pulsar</a><a href="pulsar3d.html">3D Pulsar</a><a href="merger.html">Merger</a><a href="glossary.html">Glossary</a><a href="about.html">About</a></nav></header>
+<main><h1>Pulsar in 3D</h1><p class="sub">Drag to orbit, pinch or scroll to zoom. Same physics as the <a href="pulsar.html">2D pulsar simulator</a>.</p>
+<div class="pz-bar"><a class="pz-btn" href="pulsar.html">← Back to the 2D view</a><button id="eq-btn" aria-expanded="false" aria-controls="eq">∑ Equations (math &amp; physics)</button></div>
+<p class="bhsim-small"><b>Illustration, not a photograph.</b> Nobody can see a pulsar like this. The beams, field lines, glow and colours are artistic. The star is drawn far bigger than the scene would really allow, and the light cylinder is <b>not to scale</b> (it is compressed so it fits on screen). The pulse timing, the "does Earth see it?" check and the numbers do come from the real geometry and standard formulas.</p>
+<div id="p3-wrap"><span id="p3-tag">Illustration · not to scale</span></div>
+<canvas id="p3-strip" aria-label="Pulse profile over two turns"></canvas>
+<p id="p3-msg" aria-live="polite"></p>
+<div class="pz-bar" id="presets" role="group" aria-label="Presets"></div>
+<p id="pz-note" aria-live="polite"></p>
+<section id="eq" hidden aria-label="Pulsar equations"><h2>The math behind a pulsar</h2><div id="eq-body"></div></section>
+<div class="pz-sound" role="group" aria-label="Sound controls">
+ <div id="sound"></div>
+ <div class="pz-bar"><button id="up">⏩ Spin up</button><button id="down">⏪ Spin down</button></div>
+ <p class="bhsim-small" id="snd-status"></p>
+</div>
+<div id="sim-slot" class="bhsim-full"></div>
+<section><h2>What you are looking at</h2>
+<p><b>White-blue ball:</b> the neutron star. <b>Purple loops:</b> magnetic field lines of a simple dipole, lined up with the magnetic axis, which is tilted (α) from the spin axis (dashed line), so the whole field wobbles as the star turns. <b>Blue cones:</b> the two beams from the magnetic poles. <b>Faint cylinder:</b> the light cylinder, where anything turning with the star would have to move at light speed. <b>Blue dot:</b> Earth's direction (angle ζ from the spin axis). It flashes when a beam sweeps over it, in step with the pulse strip below the view.</p>
+<p>For fast pulsars the on-screen spin is slowed to at most 1.5 turns per second so you can follow it; the sound and the numbers use the true period. Real pulsars are mostly seen as radio pulses, and the sound here is a sonification. The lighthouse model is well established, but exactly how the radio emission is made is still debated.</p></section>
+<script src="sim.js"></script>
+<script src="pulsar-sound.js"></script>
+<script>
+// Same controls as pulsar.html
+window.P3={d:null,vals:null};
+(function(){
+let rate=1,spinHz=29.9;
+const status=()=>document.getElementById("snd-status");
+const api=BHSim.mount(document.getElementById("sim-slot"),{mode:"full",object:"pulsar",onUpdate:(d,vals)=>{
+ P3.d=d;P3.vals=vals;spinHz=d.f;const ib=document.querySelector("#sound .ps-inter");const both=d.main>0.1&&d.inter>0.1;
+ if(ib&&ib.checked!==both){ib.checked=both;ib.dispatchEvent(new Event("change"))}
+ if(status())status().textContent=d.seen?("Beat: "+d.f.toFixed(d.f<10?2:0)+" ticks per second"+(both?" plus an interpulse from the second beam":"")+"."):"Note: with these angles the beams miss Earth, so a real telescope would see no pulses. The sound keeps ticking so you can still hear the spin.";
+ if(window.PulsarEq)PulsarEq.render();if(window.P3.onChange)P3.onChange();
+}});
+P3.api=api;
+const obj=api.obj,note=document.getElementById("pz-note");
+PulsarSound.mount(document.getElementById("sound"),()=>spinHz*rate);
+obj.presets.forEach(p=>{const b=document.createElement("button");b.textContent=p.name;b.onclick=()=>{api.set(p.v);note.textContent=p.note};document.getElementById("presets").appendChild(b)});
+function spin(to){const t0=performance.now(),from=rate;
+ (function tick(){const s=(performance.now()-t0)/1000;rate=s<2.5?from+(to-from)*s/2.5:s<5?to+(1-to)*(s-2.5)/2.5:1;api.st.spinMul=rate;if(s<5)requestAnimationFrame(tick)})();
+ note.textContent=to>1?"Spinning up: ticks speed up (and fast ones rise in pitch), then return. This is a sound effect; real pulsars change far too slowly to hear.":"Spinning down: slower ticks, then back. A sound effect only.";}
+document.getElementById("up").onclick=()=>spin(2.5);document.getElementById("down").onclick=()=>spin(0.4);
+api.set(obj.presets[0].v);note.textContent=obj.presets[0].note;
+})();
+</script>
+<script src="pulsar3d-equations.js"></script>
+<script type="module" src="pulsar3d.js"></script>
+</main><footer>Black Hole Atlas</footer></body></html>
