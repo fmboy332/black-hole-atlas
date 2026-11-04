@@ -1,0 +1,208 @@
+{
+ "_notes": "Distances are approximate. confidence: established, interpretation, debated, candidate, hypothesis. Categories: black-hole, pulsar, magnetar, galaxy, quasar, nebula, star, universe.",
+ "objects": [
+  {
+   "id": "sgr-a",
+   "name": "Sagittarius A*",
+   "category": "black-hole",
+   "distance_ly": 26000,
+   "mass_suns": 4300000.0,
+   "fact": "The supermassive black hole at the centre of the Milky Way. The Event Horizon Telescope released its image in 2022. Stars orbiting it were tracked for decades, which earned the 2020 Nobel Prize in Physics (Genzel and Ghez).",
+   "confidence": "established",
+   "source": "EHT; GRAVITY collaboration"
+  },
+  {
+   "id": "m87",
+   "name": "M87*",
+   "category": "black-hole",
+   "distance_ly": 53500000,
+   "mass_suns": 6500000000.0,
+   "fact": "The first black hole ever imaged (EHT, 2019). It sits in the galaxy Messier 87 and launches a jet thousands of light-years long.",
+   "confidence": "established",
+   "source": "EHT"
+  },
+  {
+   "id": "cyg-x1",
+   "name": "Cygnus X-1",
+   "category": "black-hole",
+   "distance_ly": 7200,
+   "mass_suns": 21,
+   "fact": "One of the first strong black hole candidates (1970s), a stellar-mass black hole pulling gas from a companion star.",
+   "confidence": "established",
+   "source": "Miller-Jones et al. 2021"
+  },
+  {
+   "id": "crab-pulsar",
+   "name": "Crab Pulsar",
+   "category": "pulsar",
+   "distance_ly": 6500,
+   "period_ms": 33.5,
+   "fact": "The neutron star left by the supernova seen in 1054 AD. It spins about 30 times a second.",
+   "confidence": "established",
+   "source": "ATNF"
+  },
+  {
+   "id": "vela-pulsar",
+   "name": "Vela Pulsar",
+   "category": "pulsar",
+   "distance_ly": 1000,
+   "period_ms": 89,
+   "fact": "Spins about 11 times a second. It is known for 'glitches', sudden small speed-ups of its spin.",
+   "confidence": "established",
+   "source": "ATNF"
+  },
+  {
+   "id": "j1748",
+   "name": "PSR J1748-2446ad",
+   "category": "pulsar",
+   "distance_ly": 18000,
+   "period_ms": 1.396,
+   "fact": "The fastest-spinning pulsar known, about 716 times per second.",
+   "confidence": "established",
+   "source": "Hessels et al. 2006"
+  },
+  {
+   "id": "b1919",
+   "name": "PSR B1919+21",
+   "category": "pulsar",
+   "distance_ly": 7000,
+   "period_ms": 1337,
+   "fact": "The first pulsar ever discovered, by Jocelyn Bell Burnell in 1967. It was nicknamed LGM-1 at first, but it is a natural object.",
+   "confidence": "established",
+   "source": "Hewish et al. 1968"
+  },
+  {
+   "id": "sgr1935",
+   "name": "SGR 1935+2154",
+   "category": "magnetar",
+   "distance_ly": 30000,
+   "fact": "A magnetar in the Milky Way that produced a fast radio burst in 2020, linking at least some FRBs to magnetars.",
+   "confidence": "established",
+   "source": "CHIME/FRB; STARE2"
+  },
+  {
+   "id": "milky-way",
+   "name": "Milky Way",
+   "category": "galaxy",
+   "diameter_ly": 100000,
+   "fact": "Our barred spiral galaxy, with hundreds of billions of stars. The Solar System lies about 26,000 light-years from the centre.",
+   "confidence": "established",
+   "source": "NASA/ESA Gaia"
+  },
+  {
+   "id": "andromeda",
+   "name": "Andromeda Galaxy (M31)",
+   "category": "galaxy",
+   "distance_ly": 2500000,
+   "fact": "The nearest large galaxy. It is moving toward us, and a merger with the Milky Way is expected in billions of years.",
+   "confidence": "established",
+   "source": "Hubble; Gaia"
+  },
+  {
+   "id": "lmc",
+   "name": "Large Magellanic Cloud",
+   "category": "galaxy",
+   "distance_ly": 160000,
+   "fact": "A small satellite galaxy of the Milky Way, visible from the Southern Hemisphere. Supernova 1987A exploded here.",
+   "confidence": "established",
+   "source": "NASA"
+  },
+  {
+   "id": "3c273",
+   "name": "3C 273",
+   "category": "quasar",
+   "distance_ly": 2400000000,
+   "fact": "The first quasar to be identified (1963) and one of the brightest. A quasar is a supermassive black hole actively feeding at a galaxy's centre.",
+   "confidence": "established",
+   "source": "Schmidt 1963"
+  },
+  {
+   "id": "orion",
+   "name": "Orion Nebula",
+   "category": "nebula",
+   "distance_ly": 1344,
+   "fact": "A nearby stellar nursery, visible to the naked eye as the middle 'star' of Orion's sword.",
+   "confidence": "established",
+   "source": "Gaia / NASA"
+  },
+  {
+   "id": "pillars",
+   "name": "Pillars of Creation",
+   "category": "nebula",
+   "distance_ly": 6500,
+   "fact": "Columns of gas and dust in the Eagle Nebula, famous from Hubble and Webb images where new stars are forming.",
+   "confidence": "established",
+   "source": "NASA Hubble/Webb"
+  },
+  {
+   "id": "crab-nebula",
+   "name": "Crab Nebula",
+   "category": "nebula",
+   "distance_ly": 6500,
+   "fact": "The remnant of a supernova recorded by astronomers in 1054 AD.",
+   "confidence": "established",
+   "source": "NASA"
+  },
+  {
+   "id": "sirius",
+   "name": "Sirius",
+   "category": "star",
+   "distance_ly": 8.6,
+   "fact": "The brightest star in our night sky. It has a faint white dwarf companion, Sirius B.",
+   "confidence": "established",
+   "source": "Gaia"
+  },
+  {
+   "id": "proxima",
+   "name": "Proxima Centauri",
+   "category": "star",
+   "distance_ly": 4.24,
+   "fact": "The nearest star to the Sun. A small red dwarf that hosts at least one known planet.",
+   "confidence": "established",
+   "source": "NASA"
+  },
+  {
+   "id": "betelgeuse",
+   "name": "Betelgeuse",
+   "category": "star",
+   "distance_ly": 550,
+   "fact": "A red supergiant in Orion that will eventually explode as a supernova, but not on a timescale anyone alive can predict. Its distance is uncertain, often given between 500 and 700 light-years.",
+   "confidence": "established",
+   "source": "ALMA; Hubble"
+  },
+  {
+   "id": "cmb",
+   "name": "Cosmic Microwave Background",
+   "category": "universe",
+   "fact": "The oldest light we can see, released about 380,000 years after the Big Bang. It is a relic glow cooled to about 2.7 K.",
+   "confidence": "established",
+   "source": "Planck; COBE; WMAP"
+  },
+  {
+   "id": "observable-universe",
+   "name": "Observable Universe",
+   "category": "universe",
+   "radius_ly": 46500000000,
+   "age_billion_years": 13.8,
+   "fact": "The part we can see: about 93 billion light-years across. The whole universe may be much larger, even infinite, but that is unknown. The age is about 13.8 billion years.",
+   "confidence": "established",
+   "source": "Planck 2018"
+  },
+  {
+   "id": "hubble-tension",
+   "name": "Hubble tension",
+   "category": "universe",
+   "fact": "Measurements of how fast the universe expands disagree: the early-universe method gives about 67 km/s per Mpc and the nearby-universe method about 73. Why is an open question.",
+   "confidence": "debated",
+   "source": "Planck; SH0ES"
+  },
+  {
+   "id": "dark-matter",
+   "name": "Dark matter and dark energy",
+   "category": "universe",
+   "fact": "About 27% of the universe's mass-energy is dark matter and about 68% dark energy, in the standard model. What they are is unknown.",
+   "confidence": "debated",
+   "source": "Planck 2018"
+  }
+ ]
+}

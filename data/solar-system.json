@@ -1,0 +1,186 @@
+{
+ "_source": "NASA NSSDC planetary fact sheets and NASA JPL Solar System Dynamics",
+ "_notes": {
+  "temp_C": "Mercury, Venus, Earth, Mars: mean surface temperature. Gas and ice giants: temperature at the 1 bar pressure level.",
+  "moons": "Moon counts for the giant planets keep rising as new small moons are confirmed, so check NASA's current count before quoting a number.",
+  "orbital_period_days": "Sidereal orbital period.",
+  "mass_kg": "Mass in kilograms."
+ },
+ "sun": {
+  "name": "Sun",
+  "radius_km": 695700,
+  "mass_kg": 1.98841e+30,
+  "surface_temp_K": 5772,
+  "age_billion_years": 4.6,
+  "fact": "A G-type main-sequence star holding about 99.86% of the Solar System's mass. In roughly 5 billion years it will swell into a red giant.",
+  "confidence": "established"
+ },
+ "planets": [
+  {
+   "name": "Mercury",
+   "radius_km": 2439.7,
+   "mass_kg": 3.3011e+23,
+   "semimajor_au": 0.387,
+   "orbital_period_days": 87.969,
+   "rotation": "58.646 days",
+   "moons": 0,
+   "temp_C": 167,
+   "fact": "Smallest planet. Its surface swings from about 430 °C by day to about -180 °C at night because it has almost no atmosphere.",
+   "confidence": "established"
+  },
+  {
+   "name": "Venus",
+   "radius_km": 6051.8,
+   "mass_kg": 4.8675e+24,
+   "semimajor_au": 0.723,
+   "orbital_period_days": 224.701,
+   "rotation": "243.025 days (retrograde)",
+   "moons": 0,
+   "temp_C": 464,
+   "fact": "Hottest planet, hotter than Mercury, because of a thick carbon dioxide atmosphere. A Venus day is longer than its year.",
+   "confidence": "established"
+  },
+  {
+   "name": "Earth",
+   "radius_km": 6371.0,
+   "mass_kg": 5.9722e+24,
+   "semimajor_au": 1.0,
+   "orbital_period_days": 365.256,
+   "rotation": "23.934 hours",
+   "moons": 1,
+   "temp_C": 15,
+   "fact": "Only place known to host life. About 71% of the surface is ocean.",
+   "confidence": "established"
+  },
+  {
+   "name": "Mars",
+   "radius_km": 3389.5,
+   "mass_kg": 6.4171e+23,
+   "semimajor_au": 1.524,
+   "orbital_period_days": 686.98,
+   "rotation": "24.623 hours",
+   "moons": 2,
+   "temp_C": -65,
+   "fact": "Home of Olympus Mons, the tallest known volcano in the Solar System (about 22 km high). Evidence shows liquid water once flowed here.",
+   "confidence": "established"
+  },
+  {
+   "name": "Jupiter",
+   "radius_km": 69911,
+   "mass_kg": 1.89813e+27,
+   "semimajor_au": 5.204,
+   "orbital_period_days": 4332.59,
+   "rotation": "9.925 hours",
+   "moons": null,
+   "temp_C": -110,
+   "fact": "More than twice the mass of all other planets combined. The Great Red Spot is a storm that has been observed for well over a century.",
+   "confidence": "established"
+  },
+  {
+   "name": "Saturn",
+   "radius_km": 58232,
+   "mass_kg": 5.6834e+26,
+   "semimajor_au": 9.582,
+   "orbital_period_days": 10759.22,
+   "rotation": "10.656 hours",
+   "moons": null,
+   "temp_C": -140,
+   "fact": "Its rings are mostly water ice and are extremely thin, often only about 10 metres thick in places. Its average density is lower than water.",
+   "confidence": "established"
+  },
+  {
+   "name": "Uranus",
+   "radius_km": 25362,
+   "mass_kg": 8.681e+25,
+   "semimajor_au": 19.201,
+   "orbital_period_days": 30688.5,
+   "rotation": "17.24 hours (retrograde)",
+   "moons": null,
+   "temp_C": -195,
+   "fact": "Rotates tipped on its side, with an axial tilt of about 98 degrees. An ice giant.",
+   "confidence": "established"
+  },
+  {
+   "name": "Neptune",
+   "radius_km": 24622,
+   "mass_kg": 1.02413e+26,
+   "semimajor_au": 30.048,
+   "orbital_period_days": 60182,
+   "rotation": "16.11 hours",
+   "moons": null,
+   "temp_C": -200,
+   "fact": "Farthest planet. Measured winds are among the fastest in the Solar System, over 2,000 km/h.",
+   "confidence": "established"
+  }
+ ],
+ "dwarf_planets": [
+  {
+   "name": "Pluto",
+   "radius_km": 1188.3,
+   "mass_kg": 1.303e+22,
+   "semimajor_au": 39.48,
+   "orbital_period_years": 247.9,
+   "fact": "Visited by New Horizons in 2015. It has a nitrogen-ice plain called Sputnik Planitia and a huge moon, Charon. Reclassified as a dwarf planet in 2006.",
+   "confidence": "established"
+  },
+  {
+   "name": "Ceres",
+   "radius_km": 469.7,
+   "mass_kg": 9.38e+20,
+   "semimajor_au": 2.77,
+   "orbital_period_years": 4.6,
+   "fact": "The largest object in the asteroid belt and the only dwarf planet in the inner Solar System. Visited by the Dawn spacecraft. Bright spots in Occator crater are salt deposits.",
+   "confidence": "established"
+  }
+ ],
+ "notable_moons": [
+  {
+   "name": "Moon",
+   "parent": "Earth",
+   "fact": "Earth's only natural satellite and the only other world humans have walked on (Apollo, 1969 to 1972). The leading explanation for its origin is a giant impact on the early Earth, which is well supported but still being refined.",
+   "confidence": "established"
+  },
+  {
+   "name": "Io",
+   "parent": "Jupiter",
+   "fact": "The most volcanically active body known in the Solar System.",
+   "confidence": "established"
+  },
+  {
+   "name": "Europa",
+   "parent": "Jupiter",
+   "fact": "Strong evidence of a salty ocean under its ice shell, which makes it a top target in the search for life. Habitability is unproven.",
+   "confidence": "established"
+  },
+  {
+   "name": "Ganymede",
+   "parent": "Jupiter",
+   "fact": "The largest moon in the Solar System, bigger than Mercury, and the only moon known to have its own magnetic field.",
+   "confidence": "established"
+  },
+  {
+   "name": "Titan",
+   "parent": "Saturn",
+   "fact": "Has a thick atmosphere and lakes of liquid methane and ethane. The Huygens probe landed on it in 2005.",
+   "confidence": "established"
+  },
+  {
+   "name": "Enceladus",
+   "parent": "Saturn",
+   "fact": "Cassini flew through plumes of water vapour and ice venting from its south pole, showing a subsurface ocean and organic molecules.",
+   "confidence": "established"
+  },
+  {
+   "name": "Triton",
+   "parent": "Neptune",
+   "fact": "Orbits backwards compared with Neptune's spin, which suggests it was captured from the Kuiper belt.",
+   "confidence": "interpretation"
+  },
+  {
+   "name": "The Moon",
+   "parent": "Earth",
+   "fact": "About 384,400 km away. Its gravity drives our tides. It most likely formed when a Mars-size body hit the early Earth (the giant-impact hypothesis).",
+   "confidence": "established"
+  }
+ ]
+}
