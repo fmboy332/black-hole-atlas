@@ -1,10 +1,21 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Fall into the story of black holes | Black Hole Atlas</title><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css"></head>
-<body><header><b>Black Hole Atlas</b><nav><a href="index.html">Home</a><a href="learn.html">Black holes</a><a href="simulator.html">Simulator</a><a href="fell-in.html">Fell in?</a><a href="beyond.html">Beyond black holes</a><a href="weird.html">Weird Space Stuff</a><a href="pulsar.html">Pulsar</a><a href="pulsar3d.html">3D Pulsar</a><a href="merger.html">Merger</a><a href="glossary.html">Glossary</a><a href="about.html">About</a></nav></header>
-<main><h1>Fall into the story of black holes</h1><p class="sub">A beginner-friendly journey into the darkest objects in the universe.</p>
-<p><a class="btn" href="learn.html">Start here</a> <a class="btn alt" href="simulator.html">Open the simulator</a> <a class="btn alt" href="pulsar.html">Pulsar simulator (with sound)</a></p>
-<!-- SLOT (Mochi): animated black hole hero goes here -->
-<div id="hero-slot"></div>
-<script src="sim.js"></script><script>BHSim.mount(document.getElementById("hero-slot"),{mode:"hero"})</script>
-</main><footer>Black Hole Atlas</footer></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The UniVast</title><link rel="icon" href="favicon.svg"><link rel="stylesheet" href="style.css"></head>
+<body><div id="site-nav"></div>
+<header class="hero"><h1>The UniVast</h1><p class="tagline">Explore the observable universe, from our Sun to the most distant galaxies.</p></header>
+<div id="universe-canvas" aria-label="3D universe fly-through"><script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/" } }</script><p class="canvas-note">Loading the 3D fly-through… (needs JavaScript and WebGL)</p></div>
+<main class="wrap"><div class="cards">
+<a class="card" href="solar-system.html"><h2>Solar System</h2><p>Our planets in 3D.</p></a>
+<a class="card" href="exoplanets.html"><h2>Exoplanets</h2><p>Worlds around other stars.</p></a>
+<a class="card" href="strange-worlds.html"><h2>Strange Worlds</h2><p>The weirdest planets known.</p></a>
+<a class="card" href="black-holes.html"><h2>Black Holes</h2><p>Where gravity wins.</p></a>
+<a class="card" href="pulsars.html"><h2>Pulsars</h2><p>Cosmic lighthouses.</p></a>
+<a class="card" href="merger.html"><h2>Mergers</h2><p>Colliding black holes.</p></a>
+<a class="card" href="galaxies.html"><h2>Galaxies</h2><p>Islands of stars.</p></a>
+<a class="card" href="objects.html"><h2>Objects</h2><p>Nebulae, stars and more.</p></a>
+<a class="card" href="sounds.html"><h2>Sounds</h2><p>Recordings and sonifications.</p></a>
+<a class="card" href="sources.html"><h2>Sources</h2><p>Where every fact comes from.</p></a>
+<a class="card" href="about.html"><h2>About</h2><p>About The UniVast.</p></a>
+</div></main>
+<footer class="site-footer"><p>Illustrations and simulations are not photographs. Sounds are labelled as recordings or sonifications; space itself carries no sound.</p></footer><script src="nav.js"></script>
+<script>fetch('universe3d.js',{method:'HEAD'}).then(r=>{if(r.ok)import('./universe3d.js').catch(e=>console.warn('3D failed',e));}).catch(()=>{});</script>
+</body></html>
