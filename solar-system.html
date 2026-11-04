@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Solar System · The UniVast</title><link rel="icon" href="favicon.svg"><link rel="stylesheet" href="style.css">
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/" } }</script>
+<style>
+.v3-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(260px,1fr);gap:1rem}@media(max-width:820px){.v3-grid{grid-template-columns:1fr}}
+.v3-stage{position:relative;height:min(65vh,560px);border-radius:16px;overflow:hidden;background:#000;border:1px solid #ffffff1a}.v3-stage canvas{display:block;width:100%;height:100%;touch-action:none}
+.v3-tag{position:absolute;left:10px;top:10px;font-size:.78rem;background:#000a;padding:3px 9px;border-radius:8px;pointer-events:none}
+.v3-bar{display:flex;flex-wrap:wrap;gap:.4rem;margin:.7rem 0}.v3-bar button,.v3-bar select{min-height:44px;padding:.45rem .9rem;border-radius:999px;border:1px solid #ffffff33;background:#0e1636;color:#e8ecf8;font:inherit;font-size:.92rem;cursor:pointer}
+.v3-bar button[aria-pressed=true]{background:#2f56c9;border-color:#7fb2ff}.v3-bar button:focus-visible{outline:3px solid #ffd27a;outline-offset:2px}
+.v3-card{background:#0b1230cc;border:1px solid #ffffff1a;border-radius:16px;padding:1rem}.v3-card dl{display:grid;grid-template-columns:auto 1fr;gap:.25rem .8rem;margin:.5rem 0}.v3-card dt{color:#9aa6c8}.v3-card dd{margin:0;font-weight:600}
+.unv{border:1px solid #ffcf8a;color:#ffcf8a;border-radius:10px;padding:.5rem .8rem;font-size:.9rem}.v3-note{font-size:.85rem;color:#9aa6c8}.v3-label{position:absolute;font-size:.75rem;color:#fff;text-shadow:0 0 4px #000;pointer-events:none;transform:translate(-50%,-150%)}
+code{font-size:.85em}.ctag{display:inline-block;font-size:.75rem;padding:1px 8px;border-radius:9px;background:#1f4d2e;color:#d8ffe0;margin-left:.3rem}label.v3-sp{display:flex;align-items:center;gap:.5rem;min-height:44px}
+table.v3-t{border-collapse:collapse;width:100%;font-size:.9rem}.v3-t td,.v3-t th{border:1px solid #ffffff22;padding:.3rem .5rem;text-align:left}
+</style></head>
+<body><div id="site-nav"></div><main class="wrap"><h1>Solar System</h1><p class="intro">The Sun, eight planets, dwarf planets Pluto and Ceres, and notable moons, orbiting at their real relative speeds.</p>
+<p class="v3-note" id="ss-status">Loading facts…</p>
+<div class="v3-grid"><div>
+<div class="v3-stage" id="ss-stage"><span class="v3-tag">Illustration, not a photograph · orbit distances compressed</span></div>
+<div class="v3-bar" id="ss-bodies" role="group" aria-label="Choose a body"></div>
+<div class="v3-bar"><button id="ss-scale" aria-pressed="false">Sizes: exaggerated</button><button id="ss-pause" aria-pressed="false">Pause</button>
+<label class="v3-sp">Speed <input id="ss-speed" type="range" min="0" max="3" step="0.1" value="1.6" aria-label="Simulation speed (log)"></label><span id="ss-rate" class="v3-note"></span></div>
+</div>
+<aside class="v3-card" id="ss-card" aria-live="polite"><p>Select a body to see its facts.</p></aside></div>
+<p class="v3-note">Orbital periods use the real values, so the relative speeds are true. Orbit distances are drawn on a compressed (square-root) scale so Neptune fits on screen. "Sizes: true scale" draws every body at its true size relative to the others (the inner planets become tiny next to the Sun); "exaggerated" boosts small bodies so you can see them. Colours are simple illustrations. Drag to orbit, scroll/pinch to zoom; buttons and Tab/Enter work from the keyboard. Moons without orbit numbers are listed with facts only. Space is silent; for sonifications see <a href="sounds.html">Sounds</a>.</p>
+<noscript><p>This viewer needs JavaScript.</p></noscript>
+</main>
+<footer class="site-footer"><p>Illustrations and simulations are not photographs. Sounds are labelled as recordings or sonifications; space itself carries no sound.</p></footer><script src="nav.js"></script>
+<script type="module" src="solar-system.js"></script></body></html>
