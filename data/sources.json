@@ -1,0 +1,52 @@
+{
+ "sources": [
+  {
+   "id": "nasa-exoplanet-archive",
+   "name": "NASA Exoplanet Archive",
+   "url": "https://exoplanetarchive.ipac.caltech.edu",
+   "used_for": "Exoplanet sizes, masses, orbits, distances and discovery years",
+   "type": "catalogue"
+  },
+  {
+   "id": "nasa-sonification",
+   "name": "NASA sonifications (Chandra, Webb, Hubble)",
+   "url": "https://chandra.si.edu/sound/",
+   "used_for": "Data-to-sound clips. These are sonifications, not recordings",
+   "type": "sound",
+   "note": "Check licence and credit per clip before use."
+  },
+  {
+   "id": "atnf",
+   "name": "ATNF Pulsar Catalogue",
+   "url": "https://www.atnf.csiro.au/research/pulsar/psrcat/",
+   "used_for": "Pulsar periods and spin-down values",
+   "type": "catalogue"
+  },
+  {
+   "id": "ligo",
+   "name": "LIGO/Virgo/KAGRA gravitational-wave catalogue (GWOSC)",
+   "url": "https://gwosc.org",
+   "used_for": "Merger events such as GW200105 and GW200115",
+   "type": "catalogue"
+  },
+  {
+   "id": "jpl-ssd",
+   "name": "NASA JPL Solar System Dynamics",
+   "url": "https://ssd.jpl.nasa.gov",
+   "used_for": "Planet and moon sizes, masses and orbits",
+   "type": "catalogue"
+  },
+  {
+   "id": "nasa-nssdc",
+   "name": "NASA NSSDC planetary fact sheets",
+   "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/",
+   "used_for": "Solar System body fact sheets",
+   "type": "catalogue"
+  }
+ ],
+ "_rules": [
+  "Real data only; sources named on the page.",
+  "Anything speculative is labelled illustration, interpretation, candidate or hypothesis.",
+  "Sound: say recording or sonification, credit the source, keep the licence."
+ ]
+}

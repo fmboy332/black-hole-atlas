@@ -1,0 +1,104 @@
+{
+ "_note": "type 'recording' here means spacecraft-measured radio/plasma waves converted to audio, not microphone sound. 'sonification' means data mapped to sound.",
+ "sounds": [
+  {
+   "title": "Perseus Cluster black hole",
+   "type": "sonification",
+   "source": "X-ray: NASA/CXC/Univ. of Cambridge/C. Reynolds et al.; Sonification: NASA/CXC/SAO/K.Arcand, SYSTEM Sounds (M. Russo, A. Santaguida)",
+   "licence": "Chandra materials: no copyright claimed; use per NASA guidelines with acknowledgement (chandra.si.edu/photo/image_use.html)",
+   "url": "https://chandra.si.edu/photo/2022/sonify5/",
+   "file": "audio/chandra-perseus_sonification.mp3",
+   "description": "X-ray data from gas around the black hole in the Perseus galaxy cluster, turned into sound by mapping the data to pitch and loudness. Not a recording of the black hole."
+  },
+  {
+   "title": "Milky Way centre",
+   "type": "sonification",
+   "source": "X-ray: NASA/CXC/SAO; Optical: NASA/STScI; IR: Spitzer NASA/JPL-Caltech; Sonification: NASA/CXC/SAO/K.Arcand, SYSTEM Sounds (M. Russo, A. Santaguida)",
+   "licence": "Chandra materials: no copyright claimed; use per NASA guidelines with acknowledgement (chandra.si.edu/photo/image_use.html)",
+   "url": "https://chandra.si.edu/photo/2020/sonify/",
+   "file": "audio/chandra-galactic_all.mp3",
+   "description": "Chandra X-ray, Hubble optical and Spitzer infrared images of the Galactic Centre turned into sound. The image is scanned left to right and brightness sets loudness and pitch."
+  },
+  {
+   "title": "Crab Nebula",
+   "type": "sonification",
+   "source": "X-ray: NASA/CXC/SAO; Optical: NASA/STScI; Infrared: NASA-JPL-Caltech; Sonification: NASA/CXC/SAO/K.Arcand, SYSTEM Sounds (M. Russo, A. Santaguida)",
+   "licence": "Chandra materials: no copyright claimed; use per NASA guidelines with acknowledgement (chandra.si.edu/photo/image_use.html)",
+   "url": "https://chandra.si.edu/photo/2020/sonify2/",
+   "file": "audio/chandra-crab_all.mp3",
+   "description": "Image data from the nebula around the Crab pulsar, turned into sound. This is the nebula image, not the pulsar's own radio pulses."
+  },
+  {
+   "title": "Cassiopeia A supernova remnant",
+   "type": "sonification",
+   "source": "X-ray: NASA/CXC/SAO; Sonification: NASA/CXC/SAO/K.Arcand, SYSTEM Sounds (M. Russo, A. Santaguida)",
+   "licence": "Chandra materials: no copyright claimed; use per NASA guidelines with acknowledgement (chandra.si.edu/photo/image_use.html)",
+   "url": "https://chandra.si.edu/photo/2020/sonify/",
+   "file": "audio/chandra-casa_all.mp3",
+   "description": "X-ray image data from the debris of an exploded star, turned into sound."
+  },
+  {
+   "title": "Pillars of Creation (M16)",
+   "type": "sonification",
+   "source": "X-ray: NASA/CXC/SAO; Optical: NASA/STScI; Sonification: NASA/CXC/SAO/K.Arcand, SYSTEM Sounds (M. Russo, A. Santaguida)",
+   "licence": "Chandra materials: no copyright claimed; use per NASA guidelines with acknowledgement (chandra.si.edu/photo/image_use.html)",
+   "url": "https://chandra.si.edu/photo/2020/sonify/",
+   "file": "audio/chandra-m16_all.mp3",
+   "description": "Image data from the Pillars of Creation in the Eagle Nebula, turned into sound."
+  },
+  {
+   "title": "Star KIC 12268220C",
+   "type": "sonification",
+   "source": "NASA / Kepler mission",
+   "licence": "NASA audio, public domain/not copyrighted under NASA media guidelines; credit NASA (nasa.gov/nasa-brand-center/images-and-media)",
+   "url": "https://www.nasa.gov/historical-sounds/",
+   "file": "audio/kepler-star-KIC12268220C.mp3",
+   "description": "Star brightness changes measured by the Kepler telescope, turned into sound. Details beyond the NASA title were not checked."
+  },
+  {
+   "title": "Saturn radio emissions 1",
+   "type": "recording",
+   "source": "NASA / JPL / Univ. of Iowa (Cassini RPWS)",
+   "licence": "NASA audio, public domain/not copyrighted under NASA media guidelines; credit NASA (nasa.gov/nasa-brand-center/images-and-media)",
+   "url": "https://www.nasa.gov/historical-sounds/",
+   "file": "audio/cassini-saturn-radio-1.mp3",
+   "description": "Saturn's radio emissions as measured by Cassini. Radio waves measured by a spacecraft instrument and shifted into the range of human hearing. It is a recording of radio waves, not sound travelling through air."
+  },
+  {
+   "title": "Saturn radio emissions 2",
+   "type": "recording",
+   "source": "NASA / JPL / Univ. of Iowa (Cassini RPWS)",
+   "licence": "NASA audio, public domain/not copyrighted under NASA media guidelines; credit NASA (nasa.gov/nasa-brand-center/images-and-media)",
+   "url": "https://www.nasa.gov/historical-sounds/",
+   "file": "audio/cassini-saturn-radio-2.mp3",
+   "description": "More of Saturn's radio emissions measured by Cassini. Radio waves measured by a spacecraft instrument and shifted into the range of human hearing. It is a recording of radio waves, not sound travelling through air."
+  },
+  {
+   "title": "Enceladus (Cassini)",
+   "type": "recording",
+   "source": "NASA / JPL / Univ. of Iowa (Cassini RPWS)",
+   "licence": "NASA audio, public domain/not copyrighted under NASA media guidelines; credit NASA (nasa.gov/nasa-brand-center/images-and-media)",
+   "url": "https://www.nasa.gov/historical-sounds/",
+   "file": "audio/cassini-enceladus.mp3",
+   "description": "Plasma and radio wave data recorded by Cassini near Enceladus. Radio waves measured by a spacecraft instrument and shifted into the range of human hearing. It is a recording of radio waves, not sound travelling through air. The exact flyby was not checked."
+  },
+  {
+   "title": "Lightning on Jupiter (Voyager)",
+   "type": "recording",
+   "source": "NASA / JPL / Univ. of Iowa (Voyager PWS)",
+   "licence": "NASA audio, public domain/not copyrighted under NASA media guidelines; credit NASA (nasa.gov/nasa-brand-center/images-and-media)",
+   "url": "https://www.nasa.gov/historical-sounds/",
+   "file": "audio/voyager-jupiter-lightning.mp3",
+   "description": "Radio waves from Jupiter's lightning, picked up by Voyager. Radio waves measured by a spacecraft instrument and shifted into the range of human hearing. It is a recording of radio waves, not sound travelling through air."
+  },
+  {
+   "title": "Earth's chorus waves",
+   "type": "recording",
+   "source": "NASA / Van Allen Probes / EMFISIS (Univ. of Iowa)",
+   "licence": "NASA audio, public domain/not copyrighted under NASA media guidelines; credit NASA (nasa.gov/nasa-brand-center/images-and-media)",
+   "url": "https://www.nasa.gov/historical-sounds/",
+   "file": "audio/vanallen-earth-chorus.mp3",
+   "description": "Natural radio waves in Earth's radiation belts, picked up by the Van Allen Probes. Radio waves measured by a spacecraft instrument and shifted into the range of human hearing. It is a recording of radio waves, not sound travelling through air."
+  }
+ ]
+}

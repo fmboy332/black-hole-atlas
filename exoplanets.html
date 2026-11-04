@@ -1,0 +1,26 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Exoplanets · The UniVast</title><link rel="icon" href="favicon.svg"><link rel="stylesheet" href="style.css">
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/" } }</script>
+<style>
+.v3-grid{display:grid;grid-template-columns:minmax(0,2fr) minmax(260px,1fr);gap:1rem}@media(max-width:820px){.v3-grid{grid-template-columns:1fr}}
+.v3-stage{position:relative;height:min(60vh,520px);border-radius:16px;overflow:hidden;background:#000;border:1px solid #ffffff1a}.v3-stage canvas{display:block;width:100%;height:100%;touch-action:none}
+.v3-tag{position:absolute;left:10px;top:10px;font-size:.78rem;background:#000a;padding:3px 9px;border-radius:8px;pointer-events:none;max-width:80%}
+.v3-bar{display:flex;flex-wrap:wrap;gap:.4rem;margin:.7rem 0;align-items:center}.v3-bar button,.v3-bar select{min-height:44px;padding:.45rem .9rem;border-radius:999px;border:1px solid #ffffff33;background:#0e1636;color:#e8ecf8;font:inherit;font-size:.92rem;cursor:pointer;max-width:100%}
+.v3-bar button[aria-pressed=true]{background:#2f56c9;border-color:#7fb2ff}.v3-bar button:focus-visible,.v3-bar select:focus-visible{outline:3px solid #ffd27a;outline-offset:2px}
+.v3-card{background:#0b1230cc;border:1px solid #ffffff1a;border-radius:16px;padding:1rem}.v3-card dl{display:grid;grid-template-columns:auto 1fr;gap:.25rem .8rem;margin:.5rem 0}.v3-card dt{color:#9aa6c8}.v3-card dd{margin:0;font-weight:600}
+.v3-note{font-size:.85rem;color:#9aa6c8}#ex-cmp{width:100%;height:170px;display:block;background:#05081a;border-radius:12px;margin-top:.7rem}
+.ctag{display:inline-block;font-size:.75rem;padding:1px 8px;border-radius:9px;margin-left:.3rem;vertical-align:middle}.c-established{background:#1f4d2e}.c-interpretation{background:#33336b}.c-debated{background:#6b4a10}.c-candidate{background:#5a1f3a}.c-hypothesis{background:#4a2a6b}
+.look{border:1px solid #ffcf8a;color:#ffcf8a;border-radius:8px;padding:.1rem .5rem;font-size:.8rem}
+</style></head>
+<body><div id="site-nav"></div><main class="wrap"><h1>Exoplanets</h1><p class="intro">Worlds orbiting other stars, from the NASA Exoplanet Archive. Pick a featured world or any of the planets in our list.</p>
+<div class="v3-bar" id="ex-feat" role="group" aria-label="Featured exoplanets"></div>
+<div class="v3-bar"><label for="ex-pick">All planets:</label><select id="ex-pick"></select></div>
+<div class="v3-grid"><div>
+<div class="v3-stage" id="ex-stage"><span class="v3-tag">Artist's impression: the surface is a procedural illustration (no exoplanet has been imaged in detail). Orbit and star size not to scale.</span></div>
+<canvas id="ex-cmp" aria-label="Size comparison with Earth and Jupiter"></canvas>
+<p class="v3-note">Size comparison above is drawn to true relative scale (Earth, the planet, Jupiter) when the radius is measured.</p>
+</div><aside class="v3-card" id="ex-card" aria-live="polite"><p>Loading…</p></aside></div>
+<p class="v3-note">Numbers: NASA Exoplanet Archive composite values, checked by Oraly; they can be revised. "Not measured" means the archive lists no value (for example, no radius for planets never seen transiting). Masses from the radial-velocity method are often minimum masses. Star colour comes from its temperature; the orbit animation runs at a fixed visible speed (the real period is in the facts). Confidence tags: established, interpretation, debated, candidate, hypothesis. Space is silent; for sonifications see <a href="sounds.html">Sounds</a>, and for the weirdest worlds see <a href="strange-worlds.html">Strange Worlds</a>.</p>
+</main>
+<footer class="site-footer"><p>Illustrations and simulations are not photographs. Sounds are labelled as recordings or sonifications; space itself carries no sound.</p></footer><script src="nav.js"></script>
+<script type="module" src="exoplanets.js"></script></body></html>
