@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Objects · The UniVast</title><link rel="icon" href="favicon.svg"><link rel="stylesheet" href="style.css">
+<style>.obj{padding:1.1rem;border-radius:14px;background:#0d1533cc;border:1px solid #ffffff1a}.obj h3{margin:0 0 .3rem}.obj p{margin:.3rem 0;color:var(--muted)}.obj .meta{font-size:.85rem}.tag{display:inline-block;font-size:.72rem;padding:.1rem .5rem;border-radius:99px;border:1px solid #ffffff40;margin-right:.4rem;text-transform:uppercase;letter-spacing:.04em}.tag.debated,.tag.hypothesis,.tag.candidate,.tag.interpretation{border-color:#f5b94266}.objgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}</style></head>
+<body><div id="site-nav"></div><main class="wrap"><h1>Objects</h1><p class="intro">Nebulae, stars, pulsars, a magnetar and black holes. For 3D views of exoplanets, black holes and pulsars, use the viewer pages.</p>
+<div id="out" class="objgrid"><p>Loading…</p></div>
+<p class="meta">Distances and sizes are approximate. Tags show how settled each statement is: established, interpretation, debated, candidate or hypothesis. Sources are listed on the <a href="sources.html">Sources</a> page.</p></main>
+<footer class="site-footer"><p>Illustrations and simulations are not photographs. Sounds are labelled as recordings or sonifications; space itself carries no sound.</p></footer><script src="nav.js"></script>
+<script>
+const CATS=["nebula","star","pulsar","magnetar","black-hole"];
+function fmtLy(x){if(x==null)return null;if(x>=1e9)return (x/1e9).toFixed(1).replace(/\.0$/,'')+' billion light-years';if(x>=1e6)return (x/1e6).toFixed(1).replace(/\.0$/,'')+' million light-years';return Math.round(x).toLocaleString('en')+' light-years'}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+fetch('data/objects.json').then(r=>r.json()).then(d=>{
+ const list=d.objects.filter(o=>CATS.includes(o.category));
+ document.getElementById('out').innerHTML=list.map(o=>{
+  const m=[];
+  if(o.distance_ly!=null)m.push('Distance: about '+fmtLy(o.distance_ly));
+  if(o.diameter_ly!=null)m.push('Diameter: about '+fmtLy(o.diameter_ly));
+  if(o.mass_suns!=null)m.push('Mass: about '+Number(o.mass_suns).toLocaleString('en')+' Suns');
+  if(o.period_ms!=null)m.push('Spin period: '+o.period_ms+' ms');
+  return '<article class="obj"><h3>'+esc(o.name)+'</h3><span class="tag '+esc(o.confidence)+'">'+esc(o.confidence)+'</span><span class="tag">'+esc(o.category.replace('-',' '))+'</span><p>'+esc(o.fact)+'</p>'+(m.length?'<p class="meta">'+m.map(esc).join(' · ')+'</p>':'')+'<p class="meta">Source: '+esc(o.source)+'</p></article>';
+ }).join('')||'<p>No entries yet.</p>';
+}).catch(e=>{document.getElementById('out').innerHTML='<p>Could not load data/objects.json. If you opened this file directly, serve the folder with a local web server instead.</p>'});
+</script></body></html>
