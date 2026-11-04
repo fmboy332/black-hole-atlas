@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sources · The UniVast</title><link rel="icon" href="favicon.svg"><link rel="stylesheet" href="style.css"></head>
+<body><div id="site-nav"></div><main class="wrap"><h1>Sources</h1><p class="intro">Every fact, image and sound on this site, and where it came from.</p>
+<section><h2>Where the facts come from</h2><ul id="src-list" class="src-list"><li>Loading sources…</li></ul></section>
+<section><h2>How we label things</h2><ul>
+<li><b>Established:</b> widely accepted, measured or well modelled.</li>
+<li><b>Interpretation:</b> the data are real, but the explanation is one reading of them.</li>
+<li><b>Debated:</b> scientists disagree.</li>
+<li><b>Candidate / hypothesis:</b> not confirmed; a proposed idea.</li>
+<li><b>Illustration:</b> a drawing or simulation, not a photograph.</li></ul></section>
+<section><h2>About sound</h2><p>Space itself carries no sound, because sound needs a medium. Every clip on this site is labelled a <b>recording</b> (for example radio signals played as audio) or a <b>sonification</b> (data turned into sound). The credit and licence for each clip are listed on the Sounds page.</p></section>
+<section><h2>Honest limits</h2><ul><li>Exoplanet values are the NASA Exoplanet Archive's composite best values and get revised. Masses are often minimum masses. Equilibrium temperatures are calculated, not measured.</li><li>Distances to many objects are approximate.</li><li>Sizes and colours in 3D scenes are illustrative.</li></ul></section>
+<script>
+fetch("data/sources.json").then(r=>r.json()).then(d=>{const ul=document.getElementById("src-list");ul.innerHTML="";d.sources.forEach(s=>{const li=document.createElement("li");const a=document.createElement("a");a.href=s.url;a.textContent=s.name;a.rel="noopener";li.appendChild(a);li.appendChild(document.createTextNode(" — "+s.used_for+(s.note?" ("+s.note+")":"")));ul.appendChild(li)})}).catch(()=>{document.getElementById("src-list").innerHTML="<li>Could not load the source list.</li>"});
+</script></main>
+<footer class="site-footer"><p>Illustrations and simulations are not photographs. Sounds are labelled as recordings or sonifications; space itself carries no sound.</p></footer><script src="nav.js"></script></body></html>
