@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What if you fell in? | Black Hole Explorer</title>
+<style>
+  :root { --bg:#05060f; --card:#10122a; --accent:#ff9d3c; --text:#e8e9f5; --muted:#9aa0c8; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,sans-serif; background:radial-gradient(circle at 50% -20%,#1b1650,var(--bg) 60%); color:var(--text); line-height:1.5; }
+  main { max-width:720px; margin:0 auto; padding:24px 16px 64px; }
+  h1 { font-size:2rem; margin:.2em 0; } h2 { margin-top:1.8em; color:var(--accent); }
+  .card { background:var(--card); border-radius:16px; padding:20px; margin:16px 0; box-shadow:0 0 30px #0008; }
+  label { display:block; margin:14px 0 4px; font-weight:600; }
+  input[type=range] { width:100%; accent-color:var(--accent); }
+  select { width:100%; padding:8px; border-radius:8px; background:#0b0d22; color:var(--text); border:1px solid #333a7a; }
+  .val { color:var(--accent); font-weight:700; }
+  #verdict { font-size:1.25rem; font-weight:700; margin-top:8px; }
+  .muted { color:var(--muted); font-size:.9rem; }
+  .fact { border-left:3px solid var(--accent); padding-left:12px; margin:12px 0; }
+  .noodle { height:18px; background:linear-gradient(90deg,var(--accent),#ff4d6d); border-radius:9px; transition:width .3s, height .3s; margin:12px auto; }
+</style>
+<link rel="stylesheet" href="style.css"><link rel="icon" href="favicon.svg" type="image/svg+xml"></head>
+<body>
+<header><b>Black Hole Atlas</b><nav><a href="index.html">Home</a><a href="learn.html">Black holes</a><a href="simulator.html">Simulator</a><a href="fell-in.html">Fell in?</a><a href="beyond.html">Beyond black holes</a><a href="weird.html">Weird Space Stuff</a><a href="pulsar.html">Pulsar</a><a href="pulsar3d.html">3D Pulsar</a><a href="merger.html">Merger</a><a href="glossary.html">Glossary</a><a href="about.html">About</a></nav></header>
+<main>
+  <h1>What if you fell in? 🕳️</h1>
+  <p class="muted">Pick a black hole, pick your height, and find out where you turn into spaghetti. The physics is real. The humour is mine.</p>
+
+  <div class="card">
+    <label for="preset">Black hole</label>
+    <select id="preset">
+      <option value="10">Stellar black hole (10 suns)</option>
+      <option value="21">Cygnus X-1 (about 21 suns)</option>
+      <option value="4300000">Sagittarius A* (about 4.3 million suns)</option>
+      <option value="6500000000">M87* (about 6.5 billion suns)</option>
+      <option value="custom">Custom mass</option>
+    </select>
+
+    <label for="mass">Mass: <span class="val" id="massOut"></span> suns</label>
+    <input id="mass" type="range" min="0" max="10" step="0.01" value="1">
+
+    <label for="height">Your height: <span class="val" id="heightOut"></span></label>
+    <input id="height" type="range" min="0.5" max="2.2" step="0.01" value="1.75">
+
+    <label for="limit">Stretch you can survive: <span class="val" id="limitOut"></span></label>
+    <input id="limit" type="range" min="0" max="4" step="0.01" value="2">
+    <p class="muted">Fun setting, not medical advice. The point is where stretching beats your body. Feet-first, because why not.</p>
+  </div>
+
+  <div class="card">
+    <div class="noodle" id="noodle"></div>
+    <div id="verdict"></div>
+    <p id="details"></p>
+    <p class="muted">Formulas: tidal stretch across your body is about 2GML / r³. Event horizon radius is 2GM / c². The distance where the stretch hits your limit is r = (2GML / a)^(1/3). Treated as Newtonian, which is fine for the idea but only approximate very close to the hole.</p>
+  </div>
+
+  <h2>Time dilation: your friend's slow clock ⏳</h2>
+  <div class="card">
+    <p class="muted">Your friend hovers at a fixed distance from the black hole while you watch from far away. Slide them closer and see how slowly their clock ticks. (Hovering that close would need an absurd rocket, so this is a thought experiment.)</p>
+    <label for="dil">Height above the horizon: <span class="val" id="dilOut"></span></label>
+    <input id="dil" type="range" min="-6" max="2" step="0.01" value="0">
+    <div class="noodle" id="clockBar" style="background:linear-gradient(90deg,#5dd6ff,#7a5cff)"></div>
+    <div id="dilVerdict" style="font-weight:700;font-size:1.15rem"></div>
+    <p id="dilDetails"></p>
+    <p class="muted">Formula for a hovering clock: dτ/dt = √(1 − r<sub>s</sub>/r), with r<sub>s</sub> = 2GM/c². Standard Schwarzschild (non-spinning) result. It gets to zero only at the horizon itself. Their own clock feels totally normal to them.</p>
+  </div>
+
+  <h2>The twist</h2>
+  <div class="fact">Bigger black hole, gentler horizon. Stretching at the horizon falls as 1/M². Fall into a supermassive one and you'd cross the horizon feeling basically nothing. The bad part comes later, deeper inside.</div>
+  <div class="fact">A clock hovering close to the horizon runs slow as seen from far away. Falling in feels normal to you, but anyone watching from far away would see you slow down and freeze at the edge.</div>
+  <div class="fact">Nobody has ever been to one, so "what you'd see inside" is theory. Anyone telling you for certain is selling something.</div>
+</main>
+
+<script>
+const G=6.674e-11, c=2.998e8, MSUN=1.989e30, g0=9.80665;
+const $=id=>document.getElementById(id);
+const fmt=(x,d=3)=>x>=1e6||x<1e-2? x.toExponential(2) : Number(x.toPrecision(d)).toLocaleString();
+function dist(m){ // metres -> readable
+  if(m>=9.461e15) return fmt(m/9.461e15)+" light-years";
+  if(m>=1.496e11) return fmt(m/1.496e11)+" AU";
+  if(m>=1000) return fmt(m/1000)+" km";
+  return fmt(m)+" m";
+}
+function currentMass(){ return Math.pow(10,+$('mass').value); }
+function update(){
+  const M=currentMass()*MSUN, L=+$('height').value, a=Math.pow(10,+$('limit').value)*g0;
+  $('massOut').textContent=fmt(currentMass());
+  $('heightOut').textContent=L.toFixed(2)+" m";
+  $('limitOut').textContent=fmt(a/g0)+" g";
+  const rs=2*G*M/c**2;
+  const rDeath=Math.cbrt(2*G*M*L/a);
+  const tidalAtHorizon=2*G*M*L/rs**3;
+  const stretch=Math.min(100,Math.max(8,Math.log10(Math.max(1,tidalAtHorizon/a))*40+8));
+  $('noodle').style.width=(40+stretch*0.6)+"%"; $('noodle').style.height=Math.max(4,18-stretch*0.14)+"px";
+  let v;
+  if(rDeath<rs){
+    v="You cross the horizon in one piece. Enjoy. 😬";
+  } else {
+    v="You turn into noodles BEFORE the horizon. 🍝";
+  }
+  $('verdict').textContent=v;
+  $('details').innerHTML=
+    "Event horizon radius: <b>"+dist(rs)+"</b><br>"+
+    "Stretch across you at the horizon: <b>"+fmt(tidalAtHorizon/g0)+" g</b><br>"+
+    "Distance where you hit your limit: <b>"+dist(rDeath)+"</b> from the centre"+(rDeath<rs?" (inside the horizon)":" (outside the horizon)");
+  if(typeof updateDil==="function") updateDil();
+}
+$('preset').addEventListener('change',e=>{
+  if(e.target.value!=="custom") $('mass').value=Math.log10(+e.target.value);
+  update();
+});
+$('mass').addEventListener('input',()=>{$('preset').value='custom';update();});
+$('height').addEventListener('input',update);
+$('limit').addEventListener('input',update);
+$('mass').value=Math.log10(10); update();
+
+function timeDur(sec){
+  if(sec>=3.156e7*1e3) return fmt(sec/3.156e7)+" years";
+  if(sec>=3.156e7) return fmt(sec/3.156e7)+" years";
+  if(sec>=86400) return fmt(sec/86400)+" days";
+  if(sec>=3600) return fmt(sec/3600)+" hours";
+  if(sec>=60) return fmt(sec/60)+" minutes";
+  return fmt(sec)+" seconds";
+}
+function updateDil(){
+  const M=currentMass()*MSUN, rs=2*G*M/c**2;
+  const h=Math.pow(10,+$('dil').value);        // height above horizon, in units of rs
+  const ratio=Math.sqrt(1-1/(1+h));            // dtau/dt = sqrt(1 - rs/r), r = rs(1+h)
+  $('dilOut').textContent=fmt(h)+" × horizon radius ("+dist(rs*h)+")";
+  $('clockBar').style.width=Math.max(3,ratio*100)+"%";
+  $('dilVerdict').textContent="As seen from far away, their clock ticks "+fmt(ratio,3)+" s for every 1 s of yours.";
+  const per=1/ratio;
+  $('dilDetails').innerHTML="One hour on their clock = <b>"+timeDur(3600*per)+"</b> for you.<br>One of your days = <b>"+timeDur(86400*ratio)+"</b> for them.";
+}
+$('dil').addEventListener('input',updateDil);
+updateDil();
+</script>
+</body>
+</html>
